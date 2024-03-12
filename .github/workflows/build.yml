@@ -1,0 +1,50 @@
+name: Build and deploy site
+
+on:
+  push:
+    branchs:
+      - 'main'
+    paths:
+      - 'build'
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install cpanm
+        run: sudo apt-get update && sudo apt-get -y install cpanminus
+
+      - name: Install CPAN modules
+        run: sudo cpanm --installdeps .
+
+      - name: Create JSON
+        run: ./bs-checker > bs.json
+
+      - name: Create page
+        run: ./build
+
+      - name: Build pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
