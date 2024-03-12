@@ -1,0 +1,34 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Web::Query;
+use JSON;
+
+my $results;
+
+while (<>) {
+  my $result;
+  chomp;
+  $result->{url} = $_;
+
+  my $q = wq($_)->find('link[rel="stylesheet"]');
+
+  $q->each(sub {
+    my $href = $_->attr('href');
+    return unless $href =~ /bootstrap(.*)?\.css/;
+    my ($ver) = $href =~ /bootstrap\@(\d+\.\d+\.\d+)/;
+    if ($ver) {
+      $result->{version} = $ver;
+    } else {
+      warn "Can't find version in $href\n";
+    }
+  });
+
+  push @$results, $result;
+}
+
+say JSON->new->pretty->encode($results);
+
