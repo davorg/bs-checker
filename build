@@ -29,6 +29,6 @@ my $tt = Template->new({
   OUTPUT_PATH  => 'docs',
 });
 
-$tt->process('index.html.tt', { versions => $ver }, 'index.tt')
+$tt->process('index.html.tt', { versions => $ver }, 'index.html')
   or die Template->error;
 
