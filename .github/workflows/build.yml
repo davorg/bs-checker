@@ -5,8 +5,10 @@ on:
     branchs:
       - 'main'
     paths:
+      - 'bs-checker'
       - 'build'
       - 'src/**'
+      - 'cpanfile'
   workflow_dispatch:
 
 jobs:
