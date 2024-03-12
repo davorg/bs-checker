@@ -1,4 +1,4 @@
-require 'JSON';
-require 'Path::Tiny';
-require 'Template';
-require 'Web::Query';
+requires 'JSON';
+requires 'Path::Tiny';
+requires 'Template';
+requires 'Web::Query';
