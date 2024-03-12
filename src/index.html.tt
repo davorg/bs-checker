@@ -5,9 +5,8 @@
 ## [% v.version %]
 
 [%   FOR url IN v.urls -%]
-* [% url %]
+* [[% url %]]([% url %])
 [%   END -%]
 
 [% END -%]
 
-~~~
