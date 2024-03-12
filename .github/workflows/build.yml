@@ -9,6 +9,7 @@ on:
       - 'build'
       - 'src/**'
       - 'cpanfile'
+      - '.github/workflows/build.yml'
   workflow_dispatch:
 
 jobs:
