@@ -10,6 +10,7 @@ use JSON;
 my $results;
 
 while (<>) {
+  next if /^#/;
   my $result;
   chomp;
   $result->{url} = $_;
@@ -18,12 +19,13 @@ while (<>) {
 
   $q->each(sub {
     my $href = $_->attr('href');
-    return unless $href =~ /bootstrap(.*)?\.css/;
-    my ($ver) = $href =~ /bootstrap\@(\d+\.\d+\.\d+)/;
+    return unless $href =~ /bootstrap\.(min\.)?css/;
+    my ($ver) = $href =~ /(\d+\.\d+\.\d+)/;
     if ($ver) {
       $result->{version} = $ver;
     } else {
-      warn "Can't find version in $href\n";
+      warn "Can't find version in $href ($result->{url})\n";
+      $result->{version} = '0.0.0';
     }
   });
 
