@@ -11,25 +11,21 @@ my $results;
 
 while (<>) {
   next if /^#/;
-  my $result;
   chomp;
-  $result->{url} = $_;
+  my $url = $_;
 
   my $q = wq($_)->find('link[rel="stylesheet"]');
+
+  my $ver;
 
   $q->each(sub {
     my $href = $_->attr('href');
     return unless $href =~ /bootstrap\.(min\.)?css/;
-    my ($ver) = $href =~ /(\d+\.\d+\.\d+)/;
-    if ($ver) {
-      $result->{version} = $ver;
-    } else {
-      warn "Can't find version in $href ($result->{url})\n";
-      $result->{version} = '0.0.0';
-    }
+    ($ver) = $href =~ /(\d+\.\d+\.\d+)/;
+    $ver //= '0.0.0';
   });
 
-  push @$results, $result;
+  push @{$results->{$ver}}, $url;
 }
 
 say JSON->new->pretty->encode($results);
