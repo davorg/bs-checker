@@ -27,23 +27,7 @@ jobs:
         run: sudo cpanm --installdeps .
 
       - name: Create JSON
-        run: ./bs-checker urls > bs.json
-
-      - name: Create page
-        run: ./build
-
-      # Use GitHub Actions' cache to shorten build times and decrease load on servers
-      - name: Cache Jekyll
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      # Standard usage
-      - name: Run Jekyll
-        uses:  lemonarc/jekyll-action@1.0.0
+        run: ./bs-checker urls > docs/bs.json
 
       - name: Build pages artifact
         uses: actions/upload-pages-artifact@v3
