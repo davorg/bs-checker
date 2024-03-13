@@ -6,8 +6,6 @@ on:
       - 'main'
     paths:
       - 'bs-checker'
-      - 'build'
-      - 'src/**'
       - 'cpanfile'
       - '.github/workflows/build.yml'
   workflow_dispatch:
