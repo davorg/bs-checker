@@ -5,6 +5,7 @@ on:
     branchs:
       - 'main'
     paths:
+      - 'urls'
       - 'bs-checker'
       - 'cpanfile'
       - '.github/workflows/build.yml'
