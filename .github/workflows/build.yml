@@ -35,6 +35,14 @@ jobs:
         with:
           path: docs/
 
+      - name: Archive CPAN logs on Unix
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpan_log
+          path: /home/runner/.cpanm/work/*/build.log
+          retention-days: 5
+
   deploy:
     needs: build
     permissions:
