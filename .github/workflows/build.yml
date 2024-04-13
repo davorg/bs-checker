@@ -21,11 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install some libraries
-        run: sudo apt-get update && sudo apt-get -y install libssl-dev libz-dev
-
       - name: Install cpanm
         run: sudo apt-get update && sudo apt-get -y install cpanminus
+
+      - name: Install HTML::TreeBuilder::LibXML v0.27
+        run: cpanm TOKUHIROM/HTML-TreeBuilder-LibXML-0.27.tar.gz
 
       - name: Install CPAN modules
         run: cpanm --sudo --installdeps .
