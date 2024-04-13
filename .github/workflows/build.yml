@@ -28,7 +28,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get -y install cpanminus
 
       - name: Install CPAN modules
-        run: sudo cpanm --installdeps .
+        run: cpanm --sudo --installdeps .
 
       - name: Create JSON
         run: ./bs-checker urls > docs/bs.json
