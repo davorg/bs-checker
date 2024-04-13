@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install some libraries
+        run: sudo apt-get update && sudo apt-get -y libssl-dev libz-dev
+
       - name: Install cpanm
         run: sudo apt-get update && sudo apt-get -y install cpanminus
 
