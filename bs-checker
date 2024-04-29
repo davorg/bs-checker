@@ -22,7 +22,7 @@ while (<>) {
       warn $e;
       next;
     }
-  }
+  };
 
   my $ver;
 
