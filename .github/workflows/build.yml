@@ -24,6 +24,9 @@ jobs:
       - name: Install cpanm
         run: sudo apt-get update && sudo apt-get -y install cpanminus
 
+      - name: Perl version
+        run: perl -v
+
       - name: Install HTML::TreeBuilder::LibXML v0.27
         run: cpanm --sudo http://backpan.cpantesters.org/authors/id/T/TO/TOKUHIROM/HTML-TreeBuilder-LibXML-0.27.tar.gz
 
