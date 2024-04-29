@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use feature 'say';
+use feature qw[say try];
 
 use Web::Query;
 use JSON;
@@ -14,7 +14,15 @@ while (<>) {
   chomp;
   my $url = $_;
 
-  my $q = wq($_)->find('link[rel="stylesheet"]');
+  my $q = do {
+    try {
+      wq($_)->find('link[rel="stylesheet"]');
+    }
+    catch ($e) {
+      warn $e;
+      next;
+    }
+  }
 
   my $ver;
 
