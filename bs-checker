@@ -37,5 +37,9 @@ while (<>) {
   push @{$results->{$ver}}, $url;
 }
 
+for (keys %$results) {
+  $results->{$_} = [ sort @{ $results->{$_} } ];
+}
+
 say JSON->new->pretty->encode($results);
 
