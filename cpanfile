@@ -4,3 +4,5 @@ requires 'Web::Query';
 requires 'IO::Socket::SSL';
 requires 'Net::SSLeay';
 requires 'LWP::Protocol::https';
+# Bad version of Module::Build::Tiny
+requires 'Module::Build::Tiny', '!= 0.049';
