@@ -28,7 +28,7 @@ jobs:
         run: perl -v
 
       - name: Install CPAN modules
-        run: cpanm --sudo --installdeps .
+        run: cpanm --sudo --installdeps -n .
 
       - name: Create JSON
         run: ./bs-checker urls > docs/bs.json
