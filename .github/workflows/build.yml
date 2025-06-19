@@ -31,6 +31,8 @@ jobs:
         run: cpanm --sudo --installdeps -n .
 
       - name: Create JSON
+        env:
+          PERL5LIB: lib
         run: bin/bs-checker urls > docs/bs.json
 
       - name: Build pages artifact
