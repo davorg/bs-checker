@@ -2,44 +2,12 @@
 
 use strict;
 use warnings;
-use feature qw[say];
-use experimental qw[try];
 
-use Web::Query;
-use JSON;
+use BS_Checker;
 
-my $results;
+my @urls = map { chomp; $_ } grep { /^http/ } <>;
 
-while (<>) {
-  next if /^#/;
-  chomp;
-  my $url = $_;
+my $checker = BS_Checker->new( urls => \@urls );
 
-  my $q = do {
-    try {
-      wq($_)->find('link[rel="stylesheet"]');
-    }
-    catch ($e) {
-      warn $e;
-      next;
-    }
-  };
-
-  my $ver;
-
-  $q->each(sub {
-    my $href = $_->attr('href');
-    return unless $href =~ /bootstrap\.(min\.)?css/;
-    ($ver) = $href =~ /(\d+\.\d+\.\d+)/;
-    $ver //= '0.0.0';
-  });
-
-  push @{$results->{$ver}}, $url;
-}
-
-for (keys %$results) {
-  $results->{$_} = [ sort @{ $results->{$_} } ];
-}
-
-say JSON->new->pretty->encode($results);
+$checker->run;
 
