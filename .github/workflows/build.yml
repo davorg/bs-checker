@@ -31,7 +31,7 @@ jobs:
         run: cpanm --sudo --installdeps -n .
 
       - name: Create JSON
-        run: ./bs-checker urls > docs/bs.json
+        run: bin/bs-checker urls > docs/bs.json
 
       - name: Build pages artifact
         uses: actions/upload-pages-artifact@v3
