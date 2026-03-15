@@ -8,8 +8,13 @@ class BS_Checker;
 use feature qw[say];
 use experimental qw[try];
 
+use LWP::UserAgent;
 use Web::Query;
 use JSON;
+
+my $ua = LWP::UserAgent->new(
+  agent => 'Mozilla/5.0 (compatible; bs-checker/1.0; +https://github.com/davorg/bs-checker)',
+);
 
 field $results = {};
 field $errors  = [];
@@ -21,7 +26,7 @@ method run {
 
     my $q = do {
       try {
-        wq($_)->find('link[rel="stylesheet"]');
+        wq($_, { agent => $ua })->find('link[rel="stylesheet"]');
       }
       catch ($e) {
         (my $msg = $e) =~ s/\s+$//;

@@ -99,17 +99,7 @@ The workflow in `.github/workflows/build.yml` does the following:
 **Triggers:**
 - `workflow_dispatch` (manual)
 - Daily cron at **03:00 UTC** (`0 3 * * *`)
-- Push to `main` when `urls`, `cpanfile`, or `.github/workflows/build.yml` change *(see known issue below)*
-
-### Known Issues / Errors in the Workflow
-
-| Issue | Location | Impact | Workaround |
-|-------|----------|--------|------------|
-| Typo `branchs:` instead of `branches:` | `build.yml` line 5 | Push-to-main trigger is silently ignored by GitHub Actions | Use `workflow_dispatch` or the daily cron; fix the typo when editing the workflow |
-| `actions/checkout@v6` does not exist | `build.yml` line 22 | Workflow will fail if a new run is triggered | Change to `actions/checkout@v4` |
-| `actions/upload-artifact@v7` does not exist | `build.yml` line 45 | The "Archive CPAN logs" step will fail on error runs | Change to `actions/upload-artifact@v4` |
-
-When modifying the workflow file, fix all three issues above.
+- Push to `main` when `urls`, `cpanfile`, or `.github/workflows/build.yml` change
 
 ## Code Conventions
 
