@@ -37,7 +37,7 @@ method run {
     my $html = $resp->decoded_content;
     my $q = do {
       try {
-        wq(\$html)->find('link[rel="stylesheet"]');
+        wq($html)->find('link[rel="stylesheet"]');
       }
       catch ($e) {
         (my $msg = $e) =~ s/\s+$//;
