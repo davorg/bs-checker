@@ -41,6 +41,7 @@
       <p class="lead">Versions of Bootstrap used on my various web sites.</p>
       <p><b>Last updated:</b> <span id="last-updated"></span></p>
       <div id="versions" class="text-start"></div>
+      <div id="errors" class="text-start"></div>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -55,7 +56,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         })
         .then(data => {
             const versionsDiv = document.getElementById('versions');
-            const sortedVersions = Object.keys(data).sort();
+            const sortedVersions = Object.keys(data).filter(k => k !== 'errors').sort();
             sortedVersions.forEach(version => {
                 const h2 = document.createElement('h2');
                 h2.textContent = version;
@@ -76,6 +77,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 });
                 versionsDiv.appendChild(ul);
             });
+
+            if (data.errors && data.errors.length > 0) {
+                const errorsDiv = document.getElementById('errors');
+
+                const h2 = document.createElement('h2');
+                h2.textContent = 'Crawl Errors';
+                errorsDiv.appendChild(h2);
+
+                const p = document.createElement('p');
+                p.textContent = 'The following sites could not be checked:';
+                errorsDiv.appendChild(p);
+
+                const ul = document.createElement('ul');
+                data.errors.forEach(err => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.textContent = err.url;
+                    a.href = err.url;
+                    a.rel = 'noopener noreferrer';
+                    li.appendChild(a);
+                    li.appendChild(document.createTextNode(': ' + err.error));
+                    ul.appendChild(li);
+                });
+                errorsDiv.appendChild(ul);
+            }
         });
 });
       </script>
