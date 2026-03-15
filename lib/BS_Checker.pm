@@ -12,6 +12,7 @@ use Web::Query;
 use JSON;
 
 field $results = {};
+field $errors  = [];
 field $urls :param;
 
 method run {
@@ -23,7 +24,9 @@ method run {
         wq($_)->find('link[rel="stylesheet"]');
       }
       catch ($e) {
-        warn $e;
+        (my $msg = $e) =~ s/\s+$//;
+        warn "$msg\n";
+        push @$errors, { url => $url, error => $msg };
         next;
       }
     };
@@ -40,7 +43,8 @@ method run {
     if ($ver) {
       push @{$results->{$ver}}, $url;
     } else {
-      warn "Can't get version for $url\n";
+      warn "Can't get Bootstrap version for $url\n";
+      push @$errors, { url => $url, error => "Bootstrap version not found" };
     }
   }
 
@@ -48,7 +52,8 @@ method run {
     $results->{$_} = [ sort @{ $results->{$_} } ];
   }
 
-  say JSON->new->pretty->encode($results);
+  my $output = { %$results, errors => $errors };
+  say JSON->new->pretty->encode($output);
 }
 
 1;
