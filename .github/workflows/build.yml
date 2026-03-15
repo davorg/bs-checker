@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install cpanm
         run: sudo apt-get update && sudo apt-get -y install cpanminus
@@ -42,7 +42,7 @@ jobs:
 
       - name: Archive CPAN logs on Unix
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cpan_log
           path: /home/runner/.cpanm/work/*/build.log
