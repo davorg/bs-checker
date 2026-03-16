@@ -13,10 +13,15 @@ use Web::Query;
 use JSON;
 
 my $ua = LWP::UserAgent->new(
-  agent => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+  agent => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' .
+           '(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
 );
-$ua->default_header('Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8');
+$ua->default_header('Accept' =>
+  'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,' .
+  'image/webp,*/*;q=0.8');
 $ua->default_header('Accept-Language' => 'en-US,en;q=0.5');
+
+$Web::Query::UserAgent = $ua;
 
 field $results = {};
 field $errors  = [];
@@ -26,18 +31,9 @@ method run {
   for (@$urls) {
     my $url = $_;
 
-    my $resp = $ua->get($url);
-    unless ($resp->is_success) {
-      my $err = $resp->status_line;
-      warn "$err\n";
-      push @$errors, { url => $url, error => $err };
-      next;
-    }
-
-    my $html = $resp->decoded_content;
     my $q = do {
       try {
-        wq($html)->find('link[rel="stylesheet"]');
+        wq($_)->find('link[rel="stylesheet"]');
       }
       catch ($e) {
         (my $msg = $e) =~ s/\s+$//;
