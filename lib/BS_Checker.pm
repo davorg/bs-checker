@@ -44,7 +44,7 @@ method run {
     };
 
     my $ver;
-    my $has_bootstrap = 0;
+    my $has_bootstrap;
 
     $q->each(sub {
       my $href = $_->attr('href');
@@ -54,14 +54,17 @@ method run {
       $ver //= '0.0.0';
     });
 
-    if ($ver) {
-      push @{$results->{$ver}}, $url;
-    } elsif ($has_bootstrap) {
-      warn "Can't get Bootstrap version for $url\n";
-      push @$errors, { url => $url, error => "Bootstrap version not found" };
-    } else {
+    unless ($has_bootstrap) {
       warn "Bootstrap not used at $url\n";
       push @$errors, { url => $url, error => "Bootstrap not used" };
+      next;
+    }
+
+    if ($ver) {
+      push @{$results->{$ver}}, $url;
+    } else {
+      warn "Can't get Bootstrap version for $url\n";
+      push @$errors, { url => $url, error => "Bootstrap version not found" };
     }
   }
 
