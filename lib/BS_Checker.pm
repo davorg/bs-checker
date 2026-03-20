@@ -44,13 +44,21 @@ method run {
     };
 
     my $ver;
+    my $has_bootstrap;
 
     $q->each(sub {
       my $href = $_->attr('href');
+      $has_bootstrap = 1 if $href =~ /bootstrap/i;
       return unless $href =~ /bootstrap\.(min\.)?css/;
       ($ver) = $href =~ /(\d+\.\d+\.\d+)/;
       $ver //= '0.0.0';
     });
+
+    unless ($has_bootstrap) {
+      warn "Bootstrap not used at $url\n";
+      push @$errors, { url => $url, error => "Bootstrap not used" };
+      next;
+    }
 
     if ($ver) {
       push @{$results->{$ver}}, $url;
