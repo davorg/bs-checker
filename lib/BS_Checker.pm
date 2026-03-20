@@ -51,7 +51,6 @@ method run {
       $has_bootstrap = 1 if $href =~ /bootstrap/i;
       return unless $href =~ /bootstrap\.(min\.)?css/;
       ($ver) = $href =~ /(\d+\.\d+\.\d+)/;
-      $ver //= '0.0.0';
     });
 
     unless ($has_bootstrap) {
